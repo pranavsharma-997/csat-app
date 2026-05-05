@@ -1,171 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Customer Feedback</title>
+  <title>CSAT Feedback</title>
 
-<style>
-body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
+  <style>
+    body {
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      padding-top: 100px;
+    }
 
-/* Card */
-.container {
-    background: white;
-    padding: 40px;
-    border-radius: 16px;
-    width: 420px;
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
+    button {
+      margin: 5px;
+      padding: 15px 18px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 6px;
+      border: none;
+    }
 
-/* Title */
-h2 {
-    margin-bottom: 25px;
-    color: #333;
-}
+    button:hover {
+      background: #22c55e;
+      color: white;
+    }
 
-/* Ratings */
-.ratings {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 25px;
-}
+    #submitBtn {
+      display: none;
+      margin-top: 20px;
+      background: green;
+      color: white;
+    }
 
-.rating {
-    width: 45px;
-    height: 45px;
-    border-radius: 8px;
-    border: none;
-    background: #eee;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.rating:hover {
-    background: #4CAF50;
-    color: white;
-    transform: scale(1.1);
-}
-
-.rating.selected {
-    background: #4CAF50;
-    color: white;
-}
-
-/* Labels */
-.labels {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    margin-top: -10px;
-    margin-bottom: 20px;
-    color: #666;
-}
-
-/* Button */
-button {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    font-size: 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-button:hover {
-    background: #388E3C;
-}
-</style>
+    #msg {
+      display: none;
+      margin-top: 20px;
+      font-size: 22px;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="container" id="mainBox">
-    <h2>How likely are you to recommend us?</h2>
+<h2>How likely are you to recommend us?</h2>
 
-    <div class="ratings" id="ratings"></div>
+<div id="ratings"></div>
 
-    <div class="labels">
-        <span>Not likely</span>
-        <span>Very likely</span>
-    </div>
+<button id="submitBtn" onclick="submitScore()">Submit</button>
 
-    <button onclick="submitScore()">Submit</button>
-</div>
+<div id="msg">🙏 Thank you for your feedback!</div>
 
 <script>
 let selectedScore = null;
-const container = document.getElementById("ratings");
 
-// Create rating buttons
+// 🔍 Get email from URL OR fallback to your email
+const params = new URLSearchParams(window.location.search);
+let email = params.get("email") || "Pranav.sharma@truckx.com";
+
+// 🎯 Create rating buttons
 for (let i = 0; i <= 10; i++) {
-    const btn = document.createElement("button");
-    btn.innerText = i;
-    btn.classList.add("rating");
+  const btn = document.createElement("button");
+  btn.innerText = i;
 
-    btn.onclick = () => {
-        document.querySelectorAll(".rating").forEach(b => b.classList.remove("selected"));
-        btn.classList.add("selected");
-        selectedScore = i;
-    };
+  btn.onclick = () => {
+    selectedScore = i;
+    document.getElementById("submitBtn").style.display = "inline-block";
+  };
 
-    container.appendChild(btn);
+  document.getElementById("ratings").appendChild(btn);
 }
 
-// Submit function
+// 🚀 Submit
 function submitScore() {
-    if (selectedScore === null) {
-        alert("Please select a score");
-        return;
-    }
 
-    fetch("http://localhost:3000/submit-score", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ score: selectedScore })
-    })
-    .then(res => res.text())
-    .then(data => {
+  if (selectedScore === null) {
+    alert("Please select a score");
+    return;
+  }
 
-        // Replace UI with thank-you message
-        document.body.innerHTML = `
-            <div style="
-                display:flex;
-                justify-content:center;
-                align-items:center;
-                height:100vh;
-                font-family:'Segoe UI';
-                background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-                color:white;
-                text-align:center;
-            ">
-                <div>
-                    <h1>🙏 Thank You!</h1>
-                    <p style="font-size:18px;">
-                        We appreciate your time.<br>
-                        Your feedback has been recorded successfully.
-                    </p>
-                </div>
-            </div>
-        `;
+  fetch("https://csat-app-x6xr.onrender.com/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      score: selectedScore,
+      email: email
     })
-    .catch(err => {
-        alert("Error submitting feedback");
-    });
+  })
+  .then(res => res.json())
+  .then(() => {
+    document.getElementById("submitBtn").style.display = "none";
+    document.getElementById("msg").style.display = "block";
+  })
+  .catch(() => alert("Error submitting feedback"));
 }
 </script>
 
