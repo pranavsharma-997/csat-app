@@ -14,11 +14,11 @@
 
     button {
       margin: 5px;
-      padding: 15px 18px;
+      padding: 15px;
       font-size: 16px;
-      cursor: pointer;
       border-radius: 6px;
       border: none;
+      cursor: pointer;
     }
 
     button:hover {
@@ -52,13 +52,14 @@
 <div id="msg">🙏 Thank you for your feedback!</div>
 
 <script>
+
 let selectedScore = null;
 
-// 🔍 Get email from URL OR fallback to your email
+// ✅ Email from URL or default
 const params = new URLSearchParams(window.location.search);
 let email = params.get("email") || "Pranav.sharma@truckx.com";
 
-// 🎯 Create rating buttons
+// 🎯 Buttons
 for (let i = 0; i <= 10; i++) {
   const btn = document.createElement("button");
   btn.innerText = i;
@@ -79,7 +80,7 @@ function submitScore() {
     return;
   }
 
-  fetch("https://csat-app-x6xr.onrender.com/", {
+  fetch("https://csat-app-x6xr.onrender.com/submit-score", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -89,13 +90,19 @@ function submitScore() {
       email: email
     })
   })
-  .then(res => res.json())
+  .then(res => {
+    if (!res.ok) throw new Error("Failed");
+    return res.json();
+  })
   .then(() => {
     document.getElementById("submitBtn").style.display = "none";
     document.getElementById("msg").style.display = "block";
   })
-  .catch(() => alert("Error submitting feedback"));
+  .catch(() => {
+    alert("Error submitting feedback");
+  });
 }
+
 </script>
 
 </body>
