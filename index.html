@@ -1,137 +1,219 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>CSAT Feedback</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>TruckX Feedback</title>
 
   <style>
     body {
-      font-family: Arial;
-      background: #0f172a;
+      margin: 0;
+      padding: 0;
+      background: #000814;
       color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 700px;
       text-align: center;
-      padding-top: 100px;
+      padding: 30px;
     }
 
-    #ratings button {
-      margin: 5px;
-      padding: 15px;
-      font-size: 16px;
-      border-radius: 6px;
+    h1 {
+      margin-bottom: 40px;
+      font-size: 34px;
+    }
+
+    .scores {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+
+    .score-btn {
+      width: 55px;
+      height: 55px;
       border: none;
+      border-radius: 10px;
+      background: #d9d9d9;
+      color: black;
+      font-size: 22px;
       cursor: pointer;
+      transition: 0.2s;
     }
 
-    #ratings button:hover {
+    .score-btn:hover {
+      transform: scale(1.08);
+    }
+
+    .score-btn.active {
       background: green;
       color: white;
     }
 
     #submitBtn {
-      display: none;
-      margin-top: 20px;
-      padding: 12px 20px;
       background: green;
       color: white;
       border: none;
+      padding: 16px 45px;
+      border-radius: 10px;
+      font-size: 22px;
       cursor: pointer;
     }
 
-    #msg {
-      display: none;
+    #submitBtn:hover {
+      opacity: 0.9;
+    }
+
+    .success {
       margin-top: 20px;
-      font-size: 22px;
+      color: lightgreen;
+      font-size: 20px;
+    }
+
+    .error {
+      margin-top: 20px;
+      color: red;
+      font-size: 20px;
     }
   </style>
 </head>
 
 <body>
 
-<h2>How likely are you to recommend us?</h2>
+  <div class="container">
 
-<div id="ratings"></div>
+    <h1>How likely are you to recommend us?</h1>
 
-<button id="submitBtn">Submit</button>
+    <div class="scores" id="scores"></div>
 
-<div id="msg">🙏 Thank you for your feedback!</div>
+    <button id="submitBtn">Submit</button>
 
-<script>
+    <div id="message"></div>
 
-// 🔹 Get email
-const params = new URLSearchParams(window.location.search);
-const email = params.get("email");
+  </div>
 
-// ❗ Do NOT stop script with alert (this was breaking clicks)
-if (!email) {
-  console.log("Email missing");
-}
+  <script>
 
-let selectedScore = null;
+    // ============================
+    // YOUR RENDER BACKEND URL
+    // ============================
 
-// 🔥 Create buttons properly
-const ratingsDiv = document.getElementById("ratings");
+    const API_URL = "https://csat-app-x6xr.onrender.com";
 
-for (let i = 0; i <= 10; i++) {
-  const btn = document.createElement("button");
-  btn.innerText = i;
+    // ============================
+    // GET EMAIL FROM URL
+    // ============================
 
-  btn.addEventListener("click", function () {
+    const params = new URLSearchParams(window.location.search);
 
-    selectedScore = i;
+    const email = params.get("email");
 
-    // highlight
-    document.querySelectorAll("#ratings button").forEach(b => {
-      b.style.background = "";
-      b.style.color = "";
-    });
+    if (!email) {
+      alert("Invalid link. Email missing.");
+    }
 
-    btn.style.background = "green";
-    btn.style.color = "white";
+    // ============================
+    // SCORE BUTTONS
+    // ============================
 
-    document.getElementById("submitBtn").style.display = "inline-block";
-  });
+    const scoresDiv = document.getElementById("scores");
 
-  ratingsDiv.appendChild(btn);
-}
+    let selectedScore = null;
 
-// 🔥 Submit logic
-document.getElementById("submitBtn").addEventListener("click", async function () {
+    for (let i = 0; i <= 10; i++) {
 
-  if (selectedScore === null) {
-    alert("Please select a score");
-    return;
-  }
+      const btn = document.createElement("button");
 
-  const btn = this;
-  btn.innerText = "Submitting...";
-  btn.disabled = true;
+      btn.innerText = i;
 
-  try {
-    const res = await fetch("https://csat-app-x6xr.onrender.com/submit-score", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        score: selectedScore,
-        email: email
-      })
-    });
+      btn.classList.add("score-btn");
 
-    if (!res.ok) throw new Error();
+      btn.onclick = () => {
 
-    btn.style.display = "none";
-    document.getElementById("msg").style.display = "block";
+        document.querySelectorAll(".score-btn").forEach(b => {
+          b.classList.remove("active");
+        });
 
-  } catch (err) {
+        btn.classList.add("active");
 
-    alert("Server waking up. Try again in 10 sec");
+        selectedScore = i;
+      };
 
-    btn.innerText = "Submit";
-    btn.disabled = false;
-  }
-});
+      scoresDiv.appendChild(btn);
+    }
 
-</script>
+    // ============================
+    // SUBMIT FEEDBACK
+    // ============================
+
+    const submitBtn = document.getElementById("submitBtn");
+
+    submitBtn.onclick = async () => {
+
+      const message = document.getElementById("message");
+
+      message.innerHTML = "";
+
+      if (selectedScore === null) {
+        alert("Please select a score");
+        return;
+      }
+
+      submitBtn.innerText = "Submitting...";
+
+      try {
+
+        const response = await fetch(`${API_URL}/submit-score`, {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            email: email,
+            score: selectedScore
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+
+          message.innerHTML =
+            `<div class="success">✅ Thank you for your feedback!</div>`;
+
+        } else {
+
+          message.innerHTML =
+            `<div class="error">❌ Failed to submit feedback</div>`;
+        }
+
+      } catch (error) {
+
+        console.log(error);
+
+        message.innerHTML =
+          `<div class="error">❌ Server error</div>`;
+      }
+
+      submitBtn.innerText = "Submit";
+    };
+
+  </script>
 
 </body>
+
 </html>
