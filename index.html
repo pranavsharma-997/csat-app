@@ -12,7 +12,7 @@
       padding-top: 100px;
     }
 
-    button {
+    #ratings button {
       margin: 5px;
       padding: 15px;
       font-size: 16px;
@@ -21,16 +21,19 @@
       cursor: pointer;
     }
 
-    button:hover {
-      background: #22c55e;
+    #ratings button:hover {
+      background: green;
       color: white;
     }
 
     #submitBtn {
       display: none;
       margin-top: 20px;
+      padding: 12px 20px;
       background: green;
       color: white;
+      border: none;
+      cursor: pointer;
     }
 
     #msg {
@@ -47,61 +50,86 @@
 
 <div id="ratings"></div>
 
-<button id="submitBtn" onclick="submitScore()">Submit</button>
+<button id="submitBtn">Submit</button>
 
 <div id="msg">🙏 Thank you for your feedback!</div>
 
 <script>
 
+// 🔹 Get email
+const params = new URLSearchParams(window.location.search);
+const email = params.get("email");
+
+// ❗ Do NOT stop script with alert (this was breaking clicks)
+if (!email) {
+  console.log("Email missing");
+}
+
 let selectedScore = null;
 
-// ✅ Email from URL or default
-const params = new URLSearchParams(window.location.search);
-let email = params.get("email") || "Pranav.sharma@truckx.com";
+// 🔥 Create buttons properly
+const ratingsDiv = document.getElementById("ratings");
 
-// 🎯 Buttons
 for (let i = 0; i <= 10; i++) {
   const btn = document.createElement("button");
   btn.innerText = i;
 
-  btn.onclick = () => {
-    selectedScore = i;
-    document.getElementById("submitBtn").style.display = "inline-block";
-  };
+  btn.addEventListener("click", function () {
 
-  document.getElementById("ratings").appendChild(btn);
+    selectedScore = i;
+
+    // highlight
+    document.querySelectorAll("#ratings button").forEach(b => {
+      b.style.background = "";
+      b.style.color = "";
+    });
+
+    btn.style.background = "green";
+    btn.style.color = "white";
+
+    document.getElementById("submitBtn").style.display = "inline-block";
+  });
+
+  ratingsDiv.appendChild(btn);
 }
 
-// 🚀 Submit
-function submitScore() {
+// 🔥 Submit logic
+document.getElementById("submitBtn").addEventListener("click", async function () {
 
   if (selectedScore === null) {
     alert("Please select a score");
     return;
   }
 
-  fetch("https://csat-app-x6xr.onrender.com/submit-score", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      score: selectedScore,
-      email: email
-    })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error("Failed");
-    return res.json();
-  })
-  .then(() => {
-    document.getElementById("submitBtn").style.display = "none";
+  const btn = this;
+  btn.innerText = "Submitting...";
+  btn.disabled = true;
+
+  try {
+    const res = await fetch("https://csat-app-x6xr.onrender.com/submit-score", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        score: selectedScore,
+        email: email
+      })
+    });
+
+    if (!res.ok) throw new Error();
+
+    btn.style.display = "none";
     document.getElementById("msg").style.display = "block";
-  })
-  .catch(() => {
-    alert("Error submitting feedback");
-  });
-}
+
+  } catch (err) {
+
+    alert("Server waking up. Try again in 10 sec");
+
+    btn.innerText = "Submit";
+    btn.disabled = false;
+  }
+});
 
 </script>
 
