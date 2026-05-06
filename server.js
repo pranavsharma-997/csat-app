@@ -37,19 +37,26 @@ app.post("/submit-score", async (req, res) => {
 
     const { email, score } = req.body;
 
-    // ✅ ALWAYS CREATE NEW ENTRY
-    const feedback = new Feedback({
+    const newFeedback = new Feedback({
       email,
       score
     });
 
-    await feedback.save();
+    await newFeedback.save();
 
-    res.status(200).json({
-      success: true,
-      message: "Feedback saved"
+    res.json({
+      success: true
     });
 
+  } catch (err) {
+
+    console.log(err);
+
+    res.status(500).json({
+      success: false
+    });
+  }
+});
   } catch (err) {
 
     console.log(err);
