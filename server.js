@@ -20,11 +20,15 @@ mongoose
     console.log("❌ MongoDB Error:", error);
   });
 
-const feedbackSchema = new mongoose.Schema({
-  email: String,
-  rating: Number,
-  comment: String
-});
+const feedbackSchema = new mongoose.Schema(
+  {
+    agentName: String,
+    agentEmail: String,
+    rating: Number,
+    comment: String
+  },
+  { timestamps: true }
+);
 
 const Feedback = mongoose.model("Feedback", feedbackSchema);
 
@@ -34,12 +38,20 @@ app.get("/", (req, res) => {
 
 app.post("/submit", async (req, res) => {
   try {
-    const { email, rating, comment } = req.body;
+    const { agentName, agentEmail, rating, comment } = req.body;
+
+    if (!agentEmail || !rating) {
+      return res.status(400).json({
+        success: false,
+        message: "Agent email and rating are required"
+      });
+    }
 
     const feedback = new Feedback({
-      email,
+      agentName,
+      agentEmail,
       rating,
-      comment
+      comment: comment || ""
     });
 
     await feedback.save();
@@ -49,7 +61,7 @@ app.post("/submit", async (req, res) => {
       message: "Feedback submitted successfully"
     });
   } catch (error) {
-    console.log(error);
+    console.log("Submit Error:", error);
 
     res.status(500).json({
       success: false,
