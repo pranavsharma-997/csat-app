@@ -1,160 +1,204 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CSAT Feedback</title>
+  <title>TruckX Feedback</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
+      margin: 0;
+      min-height: 100vh;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #eef2ff, #dbeafe);
+      background: linear-gradient(135deg, #07111f, #0f2b46, #123b5f);
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
-      margin: 0;
+      padding: 20px;
     }
 
-    .box {
-      background: white;
-      padding: 32px;
-      border-radius: 20px;
-      box-shadow: 0 10px 35px rgba(37, 99, 235, 0.18);
+    .card {
+      width: 100%;
+      max-width: 560px;
+      background: #ffffff;
+      border-radius: 26px;
+      padding: 34px;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.35);
       text-align: center;
-      width: 520px;
-      max-width: 92%;
     }
 
-    .badge {
-      display: inline-block;
-      background: #eff6ff;
-      color: #2563eb;
-      padding: 7px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: bold;
-      margin-bottom: 14px;
+    .logo-wrap {
+      background: #07111f;
+      border-radius: 18px;
+      padding: 14px 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+      box-shadow: 0 12px 30px rgba(7, 17, 31, 0.35);
     }
 
-    h2 {
+    .logo-wrap img {
+      width: 190px;
+      max-width: 100%;
+      display: block;
+    }
+
+    h1 {
       margin: 8px 0;
-      color: #111827;
-      font-size: 26px;
+      font-size: 30px;
+      color: #0f172a;
     }
 
     .subtitle {
-      color: #6b7280;
-      margin-bottom: 18px;
+      color: #64748b;
+      line-height: 1.5;
+      margin-bottom: 22px;
     }
 
-    .agent {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 10px;
+    .agent-box {
+      background: linear-gradient(135deg, #eff6ff, #ecfeff);
+      border: 1px solid #bae6fd;
+      border-radius: 16px;
+      padding: 13px;
+      margin-bottom: 24px;
+      color: #0f172a;
       font-size: 14px;
-      color: #374151;
-      margin-bottom: 22px;
-      font-weight: bold;
+      font-weight: 700;
       word-break: break-word;
+    }
+
+    .section-title {
+      text-align: left;
+      font-size: 15px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 12px;
     }
 
     .ratings {
       display: grid;
       grid-template-columns: repeat(10, 1fr);
       gap: 8px;
-      margin: 20px 0;
+      margin-bottom: 10px;
     }
 
     .rating-btn {
-      padding: 12px 0;
-      border: 2px solid #dbeafe;
-      background: #f8fafc;
-      color: #2563eb;
-      border-radius: 10px;
+      height: 45px;
+      border: 2px solid #c7e7ff;
+      background: #f8fbff;
+      color: #0f74bd;
+      border-radius: 12px;
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 800;
       font-size: 15px;
-      transition: 0.2s;
     }
 
     .rating-btn:hover {
-      background: #dbeafe;
+      background: #e0f2fe;
       transform: translateY(-2px);
     }
 
     .rating-btn.selected {
-      background: #2563eb;
-      border-color: #2563eb;
+      background: linear-gradient(135deg, #0ea5e9, #075985);
       color: white;
-      box-shadow: 0 6px 15px rgba(37, 99, 235, 0.35);
+      border-color: transparent;
+      box-shadow: 0 10px 22px rgba(14, 165, 233, 0.35);
     }
 
     .scale-labels {
       display: flex;
       justify-content: space-between;
+      color: #64748b;
       font-size: 12px;
-      color: #6b7280;
       margin-bottom: 22px;
     }
 
     textarea {
       width: 100%;
-      min-height: 95px;
-      padding: 12px;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
+      min-height: 110px;
+      padding: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
       resize: vertical;
       font-family: Arial, sans-serif;
       font-size: 14px;
-      box-sizing: border-box;
       outline: none;
+      background: #f8fafc;
     }
 
     textarea:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      border-color: #0ea5e9;
+      background: white;
+      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
     }
 
     .submit {
       width: 100%;
-      margin-top: 18px;
-      padding: 14px;
-      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      margin-top: 20px;
+      padding: 15px;
+      background: linear-gradient(135deg, #0ea5e9, #075985);
       color: white;
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
       font-size: 17px;
-      font-weight: bold;
+      font-weight: 800;
       cursor: pointer;
+      box-shadow: 0 14px 28px rgba(14, 165, 233, 0.28);
     }
 
     .submit:hover {
-      background: linear-gradient(135deg, #1d4ed8, #1e40af);
+      transform: translateY(-2px);
     }
 
     #message {
       margin-top: 16px;
-      font-weight: bold;
+      font-weight: 700;
     }
 
-    @media (max-width: 520px) {
+    .footer {
+      margin-top: 22px;
+      color: #94a3b8;
+      font-size: 12px;
+    }
+
+    @media (max-width: 560px) {
+      .card {
+        padding: 26px 20px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+
       .ratings {
         grid-template-columns: repeat(5, 1fr);
+      }
+
+      .logo-wrap img {
+        width: 155px;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="box">
-    <div class="badge">Customer Satisfaction Survey</div>
+  <div class="card">
+    <div class="logo-wrap">
+      <img src="./truckx-logo.png" alt="TruckX Logo">
+    </div>
 
-    <h2>Rate your experience</h2>
-    <p class="subtitle">How satisfied are you with the support you received?</p>
+    <h1>How was your experience?</h1>
+    <p class="subtitle">
+      Please rate the support you received. Your feedback helps us improve our service quality.
+    </p>
 
-    <div class="agent" id="agentText"></div>
+    <div class="agent-box" id="agentText"></div>
 
+    <div class="section-title">Rate your experience</div>
     <div class="ratings" id="ratings"></div>
 
     <div class="scale-labels">
@@ -162,11 +206,17 @@
       <span>10 = Excellent</span>
     </div>
 
-    <textarea id="comment" placeholder="Additional comments (optional)"></textarea>
+    <div class="section-title">
+      Comments <span style="font-weight:400; color:#64748b;">(optional)</span>
+    </div>
+
+    <textarea id="comment" placeholder="Tell us more about your experience..."></textarea>
 
     <button class="submit" onclick="submitFeedback()">Submit Feedback</button>
 
     <p id="message"></p>
+
+    <div class="footer">Powered by TruckX</div>
   </div>
 
   <script>
@@ -230,7 +280,7 @@
 
     if (!agentEmail || !agentName) {
       document.body.innerHTML = `
-        <div style="font-family: Arial; text-align:center; padding:50px;">
+        <div style="font-family: Arial; text-align:center; padding:50px; color:white;">
           <h2>Invalid feedback link</h2>
           <p>Agent email is missing or not found.</p>
         </div>
@@ -264,13 +314,13 @@
       const comment = document.getElementById("comment").value;
 
       if (!selectedRating) {
-        message.style.color = "red";
-        message.innerText = "Please select a rating.";
+        message.style.color = "#dc2626";
+        message.innerText = "Please select a rating before submitting.";
         return;
       }
 
-      message.style.color = "#374151";
-      message.innerText = "Submitting...";
+      message.style.color = "#334155";
+      message.innerText = "Submitting your feedback...";
 
       try {
         const response = await fetch(`${API_URL}/submit`, {
@@ -289,14 +339,14 @@
         const data = await response.json();
 
         if (data.success) {
-          message.style.color = "green";
+          message.style.color = "#16a34a";
           message.innerText = "Thank you! Your feedback has been submitted.";
         } else {
-          message.style.color = "red";
+          message.style.color = "#dc2626";
           message.innerText = data.message || "Failed to submit feedback.";
         }
       } catch (error) {
-        message.style.color = "red";
+        message.style.color = "#dc2626";
         message.innerText = "Server error. Please try again.";
       }
     }
