@@ -1,219 +1,133 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>TruckX Feedback</title>
+  <title>CSAT Feedback</title>
 
   <style>
     body {
-      margin: 0;
-      padding: 0;
-      background: #000814;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+      font-family: Arial;
+      background: #f4f4f4;
+      padding: 40px;
     }
 
-    .container {
-      width: 90%;
-      max-width: 700px;
-      text-align: center;
-      padding: 30px;
-    }
-
-    h1 {
-      margin-bottom: 40px;
-      font-size: 34px;
-    }
-
-    .scores {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 40px;
-    }
-
-    .score-btn {
-      width: 55px;
-      height: 55px;
-      border: none;
+    .box {
+      background: white;
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
       border-radius: 10px;
-      background: #d9d9d9;
-      color: black;
-      font-size: 22px;
-      cursor: pointer;
-      transition: 0.2s;
     }
 
-    .score-btn:hover {
-      transform: scale(1.08);
+    input,
+    textarea,
+    select,
+    button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
     }
 
-    .score-btn.active {
-      background: green;
-      color: white;
-    }
-
-    #submitBtn {
-      background: green;
+    button {
+      background: blue;
       color: white;
       border: none;
-      padding: 16px 45px;
-      border-radius: 10px;
-      font-size: 22px;
-      cursor: pointer;
-    }
-
-    #submitBtn:hover {
-      opacity: 0.9;
-    }
-
-    .success {
-      margin-top: 20px;
-      color: lightgreen;
-      font-size: 20px;
-    }
-
-    .error {
-      margin-top: 20px;
-      color: red;
-      font-size: 20px;
     }
   </style>
 </head>
 
 <body>
+  <div class="box">
+    <h2>Customer Feedback</h2>
 
-  <div class="container">
+    <form id="feedbackForm">
+      <input
+        type="email"
+        id="email"
+        placeholder="Enter email"
+        required
+      >
 
-    <h1>How likely are you to recommend us?</h1>
+      <select id="rating" required>
+        <option value="">Select Rating</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
 
-    <div class="scores" id="scores"></div>
+      <textarea
+        id="comment"
+        placeholder="Comment"
+      ></textarea>
 
-    <button id="submitBtn">Submit</button>
+      <button type="submit">
+        Submit Feedback
+      </button>
+    </form>
 
-    <div id="message"></div>
-
+    <p id="message"></p>
   </div>
 
   <script>
+    document
+      .getElementById("feedbackForm")
+      .addEventListener("submit", async function (e) {
 
-    // ============================
-    // YOUR RENDER BACKEND URL
-    // ============================
+        e.preventDefault();
 
-    const API_URL = "https://csat-app-eijm.onrender.com";
+        const email =
+          document.getElementById("email").value;
 
-    // ============================
-    // GET EMAIL FROM URL
-    // ============================
+        const rating =
+          document.getElementById("rating").value;
 
-    const params = new URLSearchParams(window.location.search);
+        const comment =
+          document.getElementById("comment").value;
 
-    const email = params.get("email");
+        try {
 
-    if (!email) {
-      alert("Invalid link. Email missing.");
-    }
+          const response = await fetch(
+            "http://localhost:3000/submit",
+            {
+              method: "POST",
 
-    // ============================
-    // SCORE BUTTONS
-    // ============================
+              headers: {
+                "Content-Type": "application/json"
+              },
 
-    const scoresDiv = document.getElementById("scores");
+              body: JSON.stringify({
+                email,
+                rating,
+                comment
+              })
+            }
+          );
 
-    let selectedScore = null;
+          const data = await response.json();
 
-    for (let i = 0; i <= 10; i++) {
+          if (data.success) {
 
-      const btn = document.createElement("button");
+            document.getElementById("message")
+              .innerText =
+              "Feedback submitted successfully";
 
-      btn.innerText = i;
+          } else {
 
-      btn.classList.add("score-btn");
+            document.getElementById("message")
+              .innerText =
+              "Failed to submit";
 
-      btn.onclick = () => {
+          }
 
-        document.querySelectorAll(".score-btn").forEach(b => {
-          b.classList.remove("active");
-        });
+        } catch (error) {
 
-        btn.classList.add("active");
+          document.getElementById("message")
+            .innerText =
+            "Server Error";
 
-        selectedScore = i;
-      };
-
-      scoresDiv.appendChild(btn);
-    }
-
-    // ============================
-    // SUBMIT FEEDBACK
-    // ============================
-
-    const submitBtn = document.getElementById("submitBtn");
-
-    submitBtn.onclick = async () => {
-
-      const message = document.getElementById("message");
-
-      message.innerHTML = "";
-
-      if (selectedScore === null) {
-        alert("Please select a score");
-        return;
-      }
-
-      submitBtn.innerText = "Submitting...";
-
-      try {
-
-        const response = await fetch(`${API_URL}/submit-score`, {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-            email: email,
-            score: selectedScore
-          })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-
-          message.innerHTML =
-            `<div class="success">✅ Thank you for your feedback!</div>`;
-
-        } else {
-
-          message.innerHTML =
-            `<div class="error">❌ Failed to submit feedback</div>`;
         }
-
-      } catch (error) {
-
-        console.log(error);
-
-        message.innerHTML =
-          `<div class="error">❌ Server error</div>`;
-      }
-
-      submitBtn.innerText = "Submit";
-    };
-
+      });
   </script>
-
 </body>
-
 </html>
