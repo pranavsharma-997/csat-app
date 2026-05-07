@@ -13,172 +13,182 @@
       margin: 0;
       min-height: 100vh;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #07111f, #0f2b46, #123b5f);
+      background: linear-gradient(135deg, #020617, #0f172a, #1e293b);
+      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      padding: 24px;
     }
 
     .card {
       width: 100%;
-      max-width: 560px;
-      background: #ffffff;
-      border-radius: 26px;
-      padding: 34px;
-      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.35);
-      text-align: center;
-    }
-
-    .logo-wrap {
-      background: #07111f;
+      max-width: 760px;
+      background: #1e293b;
       border-radius: 18px;
-      padding: 14px 22px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 22px;
-      box-shadow: 0 12px 30px rgba(7, 17, 31, 0.35);
+      padding: 50px 44px;
+      text-align: center;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .logo-wrap img {
+    .logo-box {
+      display: inline-flex;
+      background: #020617;
+      padding: 14px 24px;
+      border-radius: 16px;
+      margin-bottom: 28px;
+      box-shadow: 0 14px 32px rgba(0,0,0,0.35);
+    }
+
+    .logo-box img {
       width: 190px;
-      max-width: 100%;
       display: block;
     }
 
     h1 {
-      margin: 8px 0;
-      font-size: 30px;
-      color: #0f172a;
+      margin: 0 0 14px;
+      font-size: 34px;
+      color: white;
     }
 
     .subtitle {
-      color: #64748b;
-      line-height: 1.5;
-      margin-bottom: 22px;
+      color: #cbd5e1;
+      font-size: 16px;
+      line-height: 1.6;
+      margin: 0 auto 26px;
+      max-width: 520px;
     }
 
     .agent-box {
-      background: linear-gradient(135deg, #eff6ff, #ecfeff);
-      border: 1px solid #bae6fd;
-      border-radius: 16px;
-      padding: 13px;
-      margin-bottom: 24px;
-      color: #0f172a;
-      font-size: 14px;
-      font-weight: 700;
-      word-break: break-word;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 30px;
+      font-weight: bold;
+      color: #e2e8f0;
     }
 
     .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 18px;
       text-align: left;
-      font-size: 15px;
-      font-weight: 700;
-      color: #334155;
-      margin-bottom: 12px;
+      color: #f8fafc;
     }
 
     .ratings {
-      display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 8px;
-      margin-bottom: 10px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 14px;
     }
 
     .rating-btn {
-      height: 45px;
-      border: 2px solid #c7e7ff;
-      background: #f8fbff;
-      color: #0f74bd;
-      border-radius: 12px;
+      width: 58px;
+      height: 58px;
+      border: none;
+      background: #f1f5f9;
+      color: #020617;
+      border-radius: 6px;
       cursor: pointer;
-      font-weight: 800;
-      font-size: 15px;
+      font-size: 18px;
+      transition: 0.2s;
     }
 
     .rating-btn:hover {
-      background: #e0f2fe;
-      transform: translateY(-2px);
+      transform: translateY(-3px);
+      background: #dbeafe;
     }
 
     .rating-btn.selected {
-      background: linear-gradient(135deg, #0ea5e9, #075985);
+      background: #008000;
       color: white;
-      border-color: transparent;
-      box-shadow: 0 10px 22px rgba(14, 165, 233, 0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(0,128,0,0.4);
     }
 
     .scale-labels {
       display: flex;
       justify-content: space-between;
-      color: #64748b;
-      font-size: 12px;
-      margin-bottom: 22px;
+      color: #94a3b8;
+      font-size: 13px;
+      margin: 8px 0 28px;
     }
 
     textarea {
       width: 100%;
-      min-height: 110px;
-      padding: 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 16px;
+      min-height: 120px;
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: white;
+      font-size: 15px;
       resize: vertical;
-      font-family: Arial, sans-serif;
-      font-size: 14px;
       outline: none;
-      background: #f8fafc;
+    }
+
+    textarea::placeholder {
+      color: #94a3b8;
     }
 
     textarea:focus {
-      border-color: #0ea5e9;
-      background: white;
-      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.15);
+      border-color: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.18);
     }
 
     .submit {
-      width: 100%;
-      margin-top: 20px;
-      padding: 15px;
-      background: linear-gradient(135deg, #0ea5e9, #075985);
-      color: white;
+      margin-top: 28px;
+      width: 180px;
+      height: 58px;
       border: none;
-      border-radius: 16px;
-      font-size: 17px;
-      font-weight: 800;
+      border-radius: 10px;
+      background: #008000;
+      color: white;
+      font-size: 20px;
       cursor: pointer;
-      box-shadow: 0 14px 28px rgba(14, 165, 233, 0.28);
+      transition: 0.2s;
     }
 
     .submit:hover {
+      background: #059669;
       transform: translateY(-2px);
     }
 
     #message {
-      margin-top: 16px;
-      font-weight: 700;
+      margin-top: 22px;
+      font-size: 18px;
+      font-weight: bold;
     }
 
     .footer {
-      margin-top: 22px;
+      margin-top: 28px;
       color: #94a3b8;
-      font-size: 12px;
+      font-size: 13px;
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 600px) {
       .card {
-        padding: 26px 20px;
+        padding: 34px 20px;
       }
 
       h1 {
-        font-size: 25px;
+        font-size: 26px;
       }
 
-      .ratings {
-        grid-template-columns: repeat(5, 1fr);
+      .rating-btn {
+        width: 52px;
+        height: 52px;
       }
 
-      .logo-wrap img {
+      .submit {
+        width: 100%;
+      }
+
+      .logo-box img {
         width: 155px;
       }
     }
@@ -187,13 +197,14 @@
 
 <body>
   <div class="card">
-    <div class="logo-wrap">
+    <div class="logo-box">
       <img src="./truckx-logo.png" alt="TruckX Logo">
     </div>
 
-    <h1>How was your experience?</h1>
+    <h1>How likely are you to recommend us?</h1>
+
     <p class="subtitle">
-      Please rate the support you received. Your feedback helps us improve our service quality.
+      Please rate the support you received. Your feedback helps TruckX improve service quality.
     </p>
 
     <div class="agent-box" id="agentText"></div>
@@ -207,12 +218,14 @@
     </div>
 
     <div class="section-title">
-      Comments <span style="font-weight:400; color:#64748b;">(optional)</span>
+      Comments <span style="font-weight:400; color:#94a3b8;">(optional)</span>
     </div>
 
     <textarea id="comment" placeholder="Tell us more about your experience..."></textarea>
 
-    <button class="submit" onclick="submitFeedback()">Submit Feedback</button>
+    <br>
+
+    <button class="submit" onclick="submitFeedback()">Submit</button>
 
     <p id="message"></p>
 
@@ -314,13 +327,13 @@
       const comment = document.getElementById("comment").value;
 
       if (!selectedRating) {
-        message.style.color = "#dc2626";
-        message.innerText = "Please select a rating before submitting.";
+        message.style.color = "#ef4444";
+        message.innerText = "❌ Please select a rating.";
         return;
       }
 
-      message.style.color = "#334155";
-      message.innerText = "Submitting your feedback...";
+      message.style.color = "#cbd5e1";
+      message.innerText = "Submitting...";
 
       try {
         const response = await fetch(`${API_URL}/submit`, {
@@ -339,15 +352,15 @@
         const data = await response.json();
 
         if (data.success) {
-          message.style.color = "#16a34a";
-          message.innerText = "Thank you! Your feedback has been submitted.";
+          message.style.color = "#22c55e";
+          message.innerText = "✅ Thank you! Your feedback has been submitted.";
         } else {
-          message.style.color = "#dc2626";
-          message.innerText = data.message || "Failed to submit feedback.";
+          message.style.color = "#ef4444";
+          message.innerText = "❌ " + (data.message || "Failed to submit feedback.");
         }
       } catch (error) {
-        message.style.color = "#dc2626";
-        message.innerText = "Server error. Please try again.";
+        message.style.color = "#ef4444";
+        message.innerText = "❌ Server error.";
       }
     }
   </script>
