@@ -25,7 +25,9 @@ const feedbackSchema = new mongoose.Schema(
     agentName: String,
     agentEmail: String,
     rating: Number,
-    comment: String
+    comment: String,
+    country: String,
+    submittedAtIST: String
   },
   { timestamps: true }
 );
@@ -38,7 +40,14 @@ app.get("/", (req, res) => {
 
 app.post("/submit", async (req, res) => {
   try {
-    const { agentName, agentEmail, rating, comment } = req.body;
+    const {
+      agentName,
+      agentEmail,
+      rating,
+      comment,
+      country,
+      submittedAtIST
+    } = req.body;
 
     if (!agentEmail || !rating) {
       return res.status(400).json({
@@ -51,7 +60,18 @@ app.post("/submit", async (req, res) => {
       agentName,
       agentEmail,
       rating,
-      comment: comment || ""
+      comment: comment || "",
+      country: country || "Unknown",
+      submittedAtIST: submittedAtIST || new Date().toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      })
     });
 
     await feedback.save();
