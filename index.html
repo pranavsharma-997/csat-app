@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -131,9 +129,7 @@
       outline: none;
     }
 
-    textarea::placeholder {
-      color: #94a3b8;
-    }
+    textarea::placeholder { color: #94a3b8; }
 
     textarea:focus {
       border-color: #22c55e;
@@ -171,26 +167,11 @@
     }
 
     @media (max-width: 600px) {
-      .card {
-        padding: 34px 20px;
-      }
-
-      h1 {
-        font-size: 26px;
-      }
-
-      .rating-btn {
-        width: 52px;
-        height: 52px;
-      }
-
-      .submit {
-        width: 100%;
-      }
-
-      .logo-box img {
-        width: 155px;
-      }
+      .card { padding: 34px 20px; }
+      h1 { font-size: 26px; }
+      .rating-btn { width: 52px; height: 52px; }
+      .submit { width: 100%; }
+      .logo-box img { width: 155px; }
     }
   </style>
 </head>
@@ -322,6 +303,29 @@
       ratingsDiv.appendChild(btn);
     }
 
+    function getISTTime() {
+      return new Date().toLocaleString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: true
+      });
+    }
+
+    async function getCountry() {
+      try {
+        const response = await fetch("https://ipapi.co/json/");
+        const data = await response.json();
+        return data.country_name || "Unknown";
+      } catch (error) {
+        return "Unknown";
+      }
+    }
+
     async function submitFeedback() {
       const message = document.getElementById("message");
       const comment = document.getElementById("comment").value;
@@ -336,6 +340,9 @@
       message.innerText = "Submitting...";
 
       try {
+        const country = await getCountry();
+        const submittedAtIST = getISTTime();
+
         const response = await fetch(`${API_URL}/submit`, {
           method: "POST",
           headers: {
@@ -345,7 +352,9 @@
             agentName: agentName,
             agentEmail: agentEmail,
             rating: selectedRating,
-            comment: comment
+            comment: comment,
+            country: country,
+            submittedAtIST: submittedAtIST
           })
         });
 
