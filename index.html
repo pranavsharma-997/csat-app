@@ -1,377 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>TruckX Feedback</title>
+  <title>Thank You - TruckX</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #020617, #0f172a, #1e293b);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 24px;
+    *{
+      box-sizing:border-box;
     }
 
-    .card {
-      width: 100%;
-      max-width: 760px;
-      background: #1e293b;
-      border-radius: 18px;
-      padding: 50px 44px;
-      text-align: center;
-      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:24px;
+      font-family:Arial,sans-serif;
+      background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
+      color:white;
     }
 
-    .logo-box {
-      display: inline-flex;
-      background: #020617;
-      padding: 14px 24px;
-      border-radius: 16px;
-      margin-bottom: 28px;
-      box-shadow: 0 14px 32px rgba(0,0,0,0.35);
+    .card{
+      width:100%;
+      max-width:650px;
+      background:#1e293b;
+      border-radius:24px;
+      padding:60px 40px;
+      text-align:center;
+      box-shadow:0 25px 70px rgba(0,0,0,0.45);
+      border:1px solid rgba(255,255,255,0.08);
     }
 
-    .logo-box img {
-      width: 190px;
-      display: block;
+    .icon{
+      width:100px;
+      height:100px;
+      margin:0 auto 28px;
+      border-radius:50%;
+      background:#16a34a;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      font-size:50px;
+      box-shadow:0 15px 35px rgba(22,163,74,0.45);
     }
 
-    h1 {
-      margin: 0 0 14px;
-      font-size: 34px;
-      color: white;
+    h1{
+      margin:0 0 18px;
+      font-size:48px;
+      color:white;
     }
 
-    .subtitle {
-      color: #cbd5e1;
-      font-size: 16px;
-      line-height: 1.6;
-      margin: 0 auto 26px;
-      max-width: 520px;
+    p{
+      margin:0;
+      color:#cbd5e1;
+      font-size:20px;
+      line-height:1.7;
     }
 
-    .agent-box {
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid #334155;
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 30px;
-      font-weight: bold;
-      color: #e2e8f0;
+    .footer{
+      margin-top:35px;
+      color:#94a3b8;
+      font-size:14px;
     }
 
-    .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 18px;
-      text-align: left;
-      color: #f8fafc;
+    @media(max-width:600px){
+
+      .card{
+        padding:45px 24px;
+      }
+
+      h1{
+        font-size:36px;
+      }
+
+      p{
+        font-size:17px;
+      }
+
+      .icon{
+        width:85px;
+        height:85px;
+        font-size:42px;
+      }
     }
 
-    .ratings {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 14px;
-      margin-bottom: 14px;
-    }
-
-    .rating-btn {
-      width: 58px;
-      height: 58px;
-      border: none;
-      background: #f1f5f9;
-      color: #020617;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 18px;
-      transition: 0.2s;
-    }
-
-    .rating-btn:hover {
-      transform: translateY(-3px);
-      background: #dbeafe;
-    }
-
-    .rating-btn.selected {
-      background: #008000;
-      color: white;
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0,128,0,0.4);
-    }
-
-    .scale-labels {
-      display: flex;
-      justify-content: space-between;
-      color: #94a3b8;
-      font-size: 13px;
-      margin: 8px 0 28px;
-    }
-
-    textarea {
-      width: 100%;
-      min-height: 120px;
-      padding: 16px;
-      border-radius: 10px;
-      border: 1px solid #334155;
-      background: #0f172a;
-      color: white;
-      font-size: 15px;
-      resize: vertical;
-      outline: none;
-    }
-
-    textarea::placeholder { color: #94a3b8; }
-
-    textarea:focus {
-      border-color: #22c55e;
-      box-shadow: 0 0 0 3px rgba(34,197,94,0.18);
-    }
-
-    .submit {
-      margin-top: 28px;
-      width: 180px;
-      height: 58px;
-      border: none;
-      border-radius: 10px;
-      background: #008000;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .submit:hover {
-      background: #059669;
-      transform: translateY(-2px);
-    }
-
-    #message {
-      margin-top: 22px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    .footer {
-      margin-top: 28px;
-      color: #94a3b8;
-      font-size: 13px;
-    }
-
-    @media (max-width: 600px) {
-      .card { padding: 34px 20px; }
-      h1 { font-size: 26px; }
-      .rating-btn { width: 52px; height: 52px; }
-      .submit { width: 100%; }
-      .logo-box img { width: 155px; }
-    }
   </style>
 </head>
 
 <body>
+
   <div class="card">
-    <div class="logo-box">
-      <img src="./truckx-logo.png" alt="TruckX Logo">
+
+    <div class="icon">
+      ✓
     </div>
 
-    <h1>How likely are you to recommend us?</h1>
+    <h1>Thank You!</h1>
 
-    <p class="subtitle">
-      Please rate the support you received. Your feedback helps TruckX improve service quality.
+    <p>
+      Your feedback has been submitted successfully.
+      <br>
+      We truly appreciate your time and support.
     </p>
 
-    <div class="agent-box" id="agentText"></div>
-
-    <div class="section-title">Rate your experience</div>
-    <div class="ratings" id="ratings"></div>
-
-    <div class="scale-labels">
-      <span>1 = Poor</span>
-      <span>10 = Excellent</span>
+    <div class="footer">
+      Powered by TruckX
     </div>
 
-    <div class="section-title">
-      Comments <span style="font-weight:400; color:#94a3b8;">(optional)</span>
-    </div>
-
-    <textarea id="comment" placeholder="Tell us more about your experience..."></textarea>
-
-    <br>
-
-    <button class="submit" onclick="submitFeedback()">Submit</button>
-
-    <p id="message"></p>
-
-    <div class="footer">Powered by TruckX</div>
   </div>
 
-  <script>
-    const API_URL = "https://csat-app-mgd7.onrender.com";
-    let selectedRating = null;
-
-    const agents = {
-      "aakash.mittal@truckx.com": "Aakash Mittaliya",
-      "abhisheak.sharma@truckx.com": "Abhisheak Sharma",
-      "abhishek.Jeste@truckx.com": "Abhishek Jeste",
-      "abhishek.sambyal@truckx.com": "Abhishek Sambyal",
-      "airish.chawla@truckx.com": "Airish Chawla",
-      "akash.saini@truckx.com": "Akash Saini",
-      "aman.deep@truckx.com": "Amandeep Mahto",
-      "amisha.rajput@truckx.com": "Amisha",
-      "amit.kumar@truckx.com": "Amit Kumar",
-      "anil.kumar@truckx.com": "Anil Kumar",
-      "anirudh.sharma@truckx.com": "Anirudh Sharma",
-      "atin.goutam@truckx.com": "Atin Goutam",
-      "bhanu.singh@truckx.com": "Bhanu Singh",
-      "harish.kumar@truckx.com": "Harish Kumar",
-      "hitesh.duggal@truckx.com": "Hitesh Duggal",
-      "jaspreet.singh@truckx.com": "Jaspreet Singh",
-      "jaswinder.kumar@truckx.com": "Jaswinder Kumar",
-      "khushhal.garg@truckx.com": "Khushhal Garg",
-      "nandini.kamra@truckx.com": "Nandini Kamra",
-      "nivodhit.malik@truckx.com": "Nivodhit Malik",
-      "om.sirohi@truckx.com": "Om Sirohi",
-      "parag.jindal@truckx.com": "Parag Jindal",
-      "pargat.singh@truckx.com": "Pargat Singh",
-      "parminder.kaur@truckx.com": "Parminder Kaur",
-      "parteek.kumar@truckx.com": "Parteek Kumar",
-      "priyanka.chaudhary@truckx.com": "Priyanka Chaudhary",
-      "priyanshu.gupta@truckx.com": "Priyanshu Gupta",
-      "priyanshu.kumar@truckx.com": "Priyanshu Kumar",
-      "rahul.kumar@truckx.com": "Rahul Kumar",
-      "ravindra.khilwani@truckx.com": "Ravindra Khilwani",
-      "reshab.sharma@truckx.com": "Reshab Sharma",
-      "saiyam.parmar@truckx.com": "Saiyam Parmar",
-      "sakshi.kansal@truckx.com": "Sakshi Kansal",
-      "shailendra.dhyani@truckx.com": "Shailendra Dhyani",
-      "shriya.jaswal@truckx.com": "Shriya Jaswal",
-      "simran.kawatra@truckx.com": "Simran Kawatra",
-      "somil.watts@truckx.com": "Somil Watts",
-      "supriya.chauhan@truckx.com": "Supriya Chauhan",
-      "tajwinder.singh@truckx.com": "Tajwinder Singh",
-      "tania.sharma@truckx.com": "Tania Sharma",
-      "ujjwal.kedia@truckx.com": "Ujjwal Kedia",
-      "vaishnav.gupta@truckx.com": "Vaishnav Gupta",
-      "vikas.gulia@truckx.com": "Vikas Gulia",
-      "vishal.garg@truckx.com": "Vishal Garg",
-      "yashika.gupta@truckx.com": "Yashika Gupta",
-      "yukti.bansal@truckx.com": "Yukti Bansal",
-      "yuvraj.singh@truckx.com": "Yuvraj Singh",
-      "pranav.sharma@truckx.com": "Pranav Sharma"
-    };
-
-    const params = new URLSearchParams(window.location.search);
-    const agentEmail = params.get("agent");
-    const agentName = agents[agentEmail];
-
-    if (!agentEmail || !agentName) {
-      document.body.innerHTML = `
-        <div style="font-family: Arial; text-align:center; padding:50px; color:white;">
-          <h2>Invalid feedback link</h2>
-          <p>Agent email is missing or not found.</p>
-        </div>
-      `;
-    } else {
-      document.getElementById("agentText").innerText = "Support Agent: " + agentName;
-    }
-
-    const ratingsDiv = document.getElementById("ratings");
-
-    for (let i = 1; i <= 10; i++) {
-      const btn = document.createElement("button");
-      btn.innerText = i;
-      btn.className = "rating-btn";
-
-      btn.onclick = function () {
-        selectedRating = i;
-
-        document.querySelectorAll(".rating-btn").forEach(button => {
-          button.classList.remove("selected");
-        });
-
-        btn.classList.add("selected");
-      };
-
-      ratingsDiv.appendChild(btn);
-    }
-
-    function getISTTime() {
-      return new Date().toLocaleString("en-IN", {
-        timeZone: "Asia/Kolkata",
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true
-      });
-    }
-
-    async function getCountry() {
-      try {
-        const response = await fetch("https://ipapi.co/json/");
-        const data = await response.json();
-        return data.country_name || "Unknown";
-      } catch (error) {
-        return "Unknown";
-      }
-    }
-
-    async function submitFeedback() {
-      const message = document.getElementById("message");
-      const comment = document.getElementById("comment").value;
-
-      if (!selectedRating) {
-        message.style.color = "#ef4444";
-        message.innerText = "❌ Please select a rating.";
-        return;
-      }
-
-      message.style.color = "#cbd5e1";
-      message.innerText = "Submitting...";
-
-      try {
-        const country = await getCountry();
-        const submittedAtIST = getISTTime();
-
-        const response = await fetch(`${API_URL}/submit`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            agentName: agentName,
-            agentEmail: agentEmail,
-            rating: selectedRating,
-            comment: comment,
-            country: country,
-            submittedAtIST: submittedAtIST
-          })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-          message.style.color = "#22c55e";
-          message.innerText = "✅ Thank you! Your feedback has been submitted.";
-        } else {
-          message.style.color = "#ef4444";
-          message.innerText = "❌ " + (data.message || "Failed to submit feedback.");
-        }
-      } catch (error) {
-        message.style.color = "#ef4444";
-        message.innerText = "❌ Server error.";
-      }
-    }
-  </script>
 </body>
 </html>
