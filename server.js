@@ -24,6 +24,7 @@ const feedbackSchema = new mongoose.Schema(
   {
     agentName: String,
     agentEmail: String,
+    cxId: String,
     rating: Number,
     comment: String,
     country: String,
@@ -43,6 +44,7 @@ app.post("/submit", async (req, res) => {
     const {
       agentName,
       agentEmail,
+      cxId,
       rating,
       comment,
       country,
@@ -59,6 +61,7 @@ app.post("/submit", async (req, res) => {
     const feedback = new Feedback({
       agentName,
       agentEmail,
+      cxId: cxId || "",
       rating,
       comment: comment || "",
       country: country || "Unknown",
