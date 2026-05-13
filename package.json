@@ -9,6 +9,20 @@
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^4.18.2",
-    "mongoose": "^8.5.1"
-  }
+    "mongoose": "^8.5.1",
+    "playwright": "^1.60.0"
+  },
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pranavsharma-997/csat-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/pranavsharma-997/csat-app/issues"
+  },
+  "homepage": "https://github.com/pranavsharma-997/csat-app#readme"
 }
