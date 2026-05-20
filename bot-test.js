@@ -3,7 +3,7 @@ const { chromium } = require("playwright");
 const LINK =
   "https://truckx-feedback.netlify.app/?agent=pranav.sharma@truckx.com";
 
-const TOTAL_TESTS = 147;
+const TOTAL_TESTS = 500;
 
 const ratings = [1, 8, 5, 8, 10, 3, 7, 9, 2, 6];
 
