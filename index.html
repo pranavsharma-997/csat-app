@@ -234,7 +234,7 @@
       "harish.kumar@truckx.com": "Harish Kumar",
       "hitesh.duggal@truckx.com": "Hitesh Duggal",
       "jaspreet.singh@truckx.com": "Jaspreet Singh",
-      "sonali.gautam@truckx.com": "Sonali Gautam",
+      "jaswinder.kumar@truckx.com": "Jaswinder Kumar",
       "khushhal.garg@truckx.com": "Khushhal Garg",
       "nandini.kamra@truckx.com": "Nandini Kamra",
       "nivodhit.malik@truckx.com": "Nivodhit Malik",
@@ -273,20 +273,33 @@
     };
 
     const params = new URLSearchParams(window.location.search);
-    const agentEmail = params.get("agent");
-    const cxId = params.get("cxId");
-    const agentName = agents[agentEmail];
+const agentEmail = params.get("agent");
+const cxId = params.get("cxId");
+const agentName = agents[agentEmail];
 
-    if (!agentEmail || !agentName) {
-      document.body.innerHTML = `
-        <div style="font-family: Arial; text-align:center; padding:50px; color:white;">
-          <h2>Invalid feedback link</h2>
-          <p>Agent email is missing or not found.</p>
-        </div>
-      `;
-    } else {
-      document.getElementById("agentText").innerText = "Support Agent: " + agentName;
-    }
+if (!agentEmail || !agentName || !cxId || cxId.trim() === "") {
+  document.body.innerHTML = `
+    <div style="
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      background:#020617;
+      color:white;
+      font-family:Arial,sans-serif;
+      text-align:center;
+    ">
+      <div>
+        <h2>Invalid Feedback Link</h2>
+        <p>Please use the official TruckX feedback link.</p>
+      </div>
+    </div>
+  `;
+  throw new Error("Invalid Link");
+}
+
+document.getElementById("agentText").innerText =
+  "Support Agent: " + agentName;
 
     const ratingsDiv = document.getElementById("ratings");
 
