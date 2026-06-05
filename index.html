@@ -277,7 +277,9 @@ const agentEmail = params.get("agent");
 const cxId = params.get("cxId");
 const agentName = agents[agentEmail];
 
-if (!agentEmail || !agentName || !cxId || cxId.trim() === "") {
+const isValidMobile = /^\d{10,16}$/.test(cxId || "");
+
+if (!agentEmail || !agentName || !isValidMobile) {
   document.body.innerHTML = `
     <div style="
       min-height:100vh;
